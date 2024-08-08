@@ -1,7 +1,16 @@
 <!-- src/components/ProductAdd.vue -->
 <template>
   <div class="container mx-auto p-4">
-    <form @submit.prevent="addProduct" class="max-w-lg mx-auto bg-white p-6 rounded shadow-lg">
+    <div v-if="!isAuthenticated" class=" flex justify-items-center flex-col mb-6 text-center" >
+      <h1 class="font-semibold text-xl leading-relaxed"  >
+        You are not logged in
+      </h1>
+      <div class="flex justify-center  mb-6">
+      <router-link to="/login" class="btn-primary">Login</router-link>
+      <router-link to="/register" class="btn-primary ml-4">Register</router-link>
+      </div>
+    </div>
+    <form v-if="isAuthenticated" @submit.prevent="addProduct" class="max-w-lg mx-auto bg-white p-6 rounded shadow-lg">
       <h2 class="text-2xl font-bold mb-4">Add Product</h2>
       <input
           v-model="name"
@@ -41,6 +50,12 @@
 <script>
 export default {
   name: 'ProductAdd',
+  computed:{
+    isAuthenticated(){
+      return this.$store.state.token !== ''
+    }
+
+  },
   data() {
     return {
       name: '',
