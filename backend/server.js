@@ -2,17 +2,18 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
-
+const dotenv = require('dotenv');
+dotenv.config();
 // Middleware
 app.use(express.json());
 app.use(cors());
-
+let MONGODB_URI = process.env.MONGODB_URI;
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/ecommerce', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(()=>{
-        console.log("connected to mongodb");
-    }).catch(()=>{
-    console.log("error connecting to mongodb");
+        console.log("connected to mongodb at localhost:" + MONGODB_URI);
+    }).catch((e)=>{
+    console.log("error connecting to mongodb", e);
 });
 
 // Routes
