@@ -51,14 +51,11 @@ frontend/
   └── main.js
 
 backend/
-├── controllers/
 ├── models/
 ├── routes/
-├── middleware/
-├── config.js
 └── server.js
 ```
-markdown
+
 Copy code
 
 ## Installation and Setup
@@ -74,36 +71,28 @@ Copy code
    ```sh
    cd frontend
 Install dependencies:
-
-sh
-Copy code
-npm install
+  ```sh
+  npm install
+  ```
 Start the development server:
+  ```sh
+  npm run serve
+```
 
-sh
-Copy code
-npm run serve
-Backend Setup
+### Backend Setup
 Navigate to the backend directory:
-
-sh
-Copy code
-cd backend
+```shell
+  cd backend
+```
 Install dependencies:
-
-sh
-Copy code
+```shell
 npm install
-Create a config.js file in the backend directory with the following content:
+```
+Update your .env file using the .env.examp
+```shell
+cp .env.example .env
+```
 
-js
-Copy code
-module.exports = {
-secret: 'your_jwt_secret',
-database: 'mongodb://localhost:27017/ecommerce',
-};
 Start the backend server:
-
-sh
-Copy code
-node server.js
+```shell
+npm run dev
