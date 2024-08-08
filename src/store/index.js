@@ -1,11 +1,15 @@
+// store/index.js
 import { createStore } from 'vuex';
 import axios from 'axios';
 
+axios.defaults.baseURL = process.env.VUE_APP_BACKEND_URL || 'http://localhost:3000';
+
+console.log(process.env, "env",);
 const store = createStore({
     state: {
         products: [],
-        user: null,
-        token: ''
+        user: JSON.parse(localStorage.getItem('user')) || null,
+        token: localStorage.getItem('token') || ''
     },
     mutations: {
         SET_PRODUCTS(state, products) {
@@ -19,20 +23,26 @@ const store = createStore({
         }
     },
     actions: {
-        fetchProducts({ commit }) {
-            axios.get('/api/products')
-                .then(response => commit('SET_PRODUCTS', response.data))
-                .catch(error => console.log(error));
+        async fetchProducts({ commit }) {
+            try {
+                const response = await axios.get('/api/products');
+                commit('SET_PRODUCTS', response.data);
+            } catch (error) {
+                console.error(error);
+            }
         },
-        login({ commit }, userData) {
-            return axios.post('/api/login', userData)
-                .then(response => {
-                    commit('SET_USER', response.data.user);
-                    commit('SET_TOKEN', response.data.token);
-                });
+        async login({ commit }, userData) {
+            const response = await axios.post('/api/login', userData);
+            commit('SET_USER', response.data.user);
+            commit('SET_TOKEN', response.data.token);
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            localStorage.setItem('token', response.data.token);
         },
-        addProduct({ state }, productData) {
-            return axios.post('/api/products', productData, {
+        async register(_, userData) {
+            await axios.post('/api/register', userData);
+        },
+        async addProduct({ state }, productData) {
+            await axios.post('/api/products', productData, {
                 headers: { Authorization: `Bearer ${state.token}` }
             });
         }

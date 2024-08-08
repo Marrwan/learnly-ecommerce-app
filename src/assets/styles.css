@@ -1,3 +1,18 @@
+/* src/assets/styles.css */
+
+/* Example of custom styles */
 body {
     font-family: 'Inter', sans-serif;
+}
+
+nav .nav-link {
+    @apply text-white hover:text-gray-300 transition duration-300;
+}
+
+button.btn-logout {
+    @apply bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300;
+}
+
+.btn-primary {
+    @apply bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300;
 }

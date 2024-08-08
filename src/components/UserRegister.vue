@@ -1,11 +1,17 @@
-<!-- src/components/UserLogin.vue -->
 <template>
   <div class="container mx-auto p-4">
-    <form @submit.prevent="login" class="max-w-sm mx-auto bg-white p-6 rounded shadow-lg">
-      <h2 class="text-2xl font-bold mb-4">Login</h2>
+    <form @submit.prevent="register" class="max-w-sm mx-auto bg-white p-6 rounded shadow-lg">
+      <h2 class="text-2xl font-bold mb-4">Register</h2>
       <input
           v-model="username"
           placeholder="Username"
+          class="w-full p-2 mb-4 border rounded"
+          required
+      />
+      <input
+          v-model="email"
+          placeholder="Email"
+          type="email"
           class="w-full p-2 mb-4 border rounded"
           required
       />
@@ -20,7 +26,7 @@
           type="submit"
           class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
       >
-        Login
+        Register
       </button>
     </form>
   </div>
@@ -28,28 +34,30 @@
 
 <script>
 export default {
-  name: 'UserLogin',
+  name: 'UserRegister',
   data() {
     return {
       username: '',
+      email: '',
       password: ''
     };
   },
   methods: {
-    async login() {
+    async register() {
       try {
-        await this.$store.dispatch('login', {
+        await this.$store.dispatch('register', {
           username: this.username,
+          email: this.email,
           password: this.password
         });
         this.$toast.open({
-          message: 'Logged in successfully!',
+          message: 'Registered successfully!',
           type: 'success',
         });
-        this.$router.push('/add-product');
+        this.$router.push('/login');
       } catch (error) {
         this.$toast.open({
-          message: 'Login failed. Please check your credentials.',
+          message: 'Registration failed. Please try again.',
           type: 'error',
         });
       }
